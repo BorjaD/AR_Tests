@@ -6,6 +6,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.junit.Assert.assertFalse;
 
 import android.content.Context;
 import android.util.Log;
@@ -76,6 +77,8 @@ public class HelloArActivityTest2 {
 
         //FOR A CERTAIN 3D OBJECT
         double xLength = 0, yLength = 0, zLength = 0;
+        boolean thereIsCollision = false;
+        List<double[]> hitboxList = new ArrayList<double[]>();
 
         // Hitbox of 3D object
         // Max and min values of X, Y, Z coordinates
@@ -166,11 +169,10 @@ public class HelloArActivityTest2 {
         //Tap the screen to place an item
         //onView(withId(R.id.surfaceview)).perform(touchDownAndUp(50, 50));
 
-        UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).click(300, 1500);
-        Thread.sleep(3000);
-
         //NEWCODE: DELETE
-        /*UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).click(600, 1500);
+        /*UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).click(300, 1500);
+        Thread.sleep(3000);
+        UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).click(600, 1500);
         Thread.sleep(3000);
         UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).click(400, 1000);
         Thread.sleep(3000);
@@ -184,6 +186,8 @@ public class HelloArActivityTest2 {
         Log.d(TAG, "Number of anchors: " + anchorsList.size());
 
         for(WrappedAnchor wAnchor : anchorsList) {
+            if (thereIsCollision) break;
+
             Anchor anchor = wAnchor.getAnchor();
 
             //Item coordinates
@@ -204,7 +208,6 @@ public class HelloArActivityTest2 {
             double hitboxMaxZ = tz + (zLength/2);
 
             // Upload the hitbox list
-            List<double[]> hitboxList = new ArrayList<double[]>();
             double[] hitbox = new double[6];
             hitbox[0] = hitboxMinX;
             hitbox[1] = hitboxMaxX;
@@ -222,10 +225,99 @@ public class HelloArActivityTest2 {
             System.out.println("^^^^ hitboxMinZ: " + hitbox[4]);
             System.out.println("^^^^ hitboxMaxZ: " + hitbox[5]);
 
-            //TODO: Check if there are intersections of hitboxes
-            /*assertTrue(qx == 0.0);
-            assertTrue(qz == 0.0);*/
+            //TODO: Check if there are intersections of hitboxes between the last added and the existing ones
+            if (hitboxList.size() > 1) {
+                double[] lastHitboxAdded = hitboxList.get(hitboxList.size() - 1);
+
+                for (int i = 0; i < hitboxList.size() - 1; i ++) {
+                    double[] hitboxInList = hitboxList.get(i);
+
+                    //Collision cases:
+                    //If MinX(B) is between MinX(A) and MaxX(A)
+                    //and MinY(B) is between MinY(A) and MaxY(A)
+                    //
+                    //If MinX(B) is between MinX(A) and MaxX(A)
+                    //and MaxY(B) is between MinY(A) and MaxY(A)
+                    //
+                    //If MaxX(B) is between MinX(A) and MaxX(A)
+                    //and MinY(B) is between MinY(A) and MaxY(A)
+                    //
+                    //If MaxX(B) is between MinX(A) and MaxX(A)
+                    //and MaxY(B) is between MinY(A) and MaxY(A)
+                    //
+                    //If MinX(B) <= MinX(A) and MaxX(B) >= MaxX(A)
+                    //and MinY(B) is between MinY(A) and MaxY(A)
+                    //
+                    //If MinX(B) <= MinX(A) and MaxX(B) >= MaxX(A)
+                    //and MaxY(B) is between MinY(A) and MaxY(A)
+                    //
+                    //If MinX(B) >= MinX(A) and MinX(B) <= MaxX(A)
+                    //and MinY(B) <= MinY(A) and MaxY(B) >= MaxY(A)
+                    //
+                    //If MaxX(B) >= MinX(A) and MaxX(B) <= MaxX(A)
+                    //and MinY(B) <= MinY(A) and MaxY(B) >= MaxY(A)
+                    //
+                    //If MinX(B) <= MinX(A) and MaxX(B) >= MaxX(A)
+                    //and MinY(B) <= MinY(A) and MaxY(B) >= MaxY(A)
+                    //TODO: Debug collision posibilities
+                    if (
+                            (
+                                    (lastHitboxAdded[0] >= hitboxInList[0] && lastHitboxAdded[0] <= hitboxInList[1])
+                                    &&
+                                    (lastHitboxAdded[2] >= hitboxInList[2] && lastHitboxAdded[2] <= hitboxInList[3])
+                            )
+                            ||
+                            (
+                                    (lastHitboxAdded[0] >= hitboxInList[0] && lastHitboxAdded[0] <= hitboxInList[1])
+                                    &&
+                                    (lastHitboxAdded[3] >= hitboxInList[2] && lastHitboxAdded[3] <= hitboxInList[3])
+                            )
+                            ||
+                            (
+                                    (lastHitboxAdded[1] >= hitboxInList[0] && lastHitboxAdded[1] <= hitboxInList[1])
+                                    &&
+                                    (lastHitboxAdded[2] >= hitboxInList[2] && lastHitboxAdded[2] <= hitboxInList[3])
+                            )
+                            ||
+                            (
+                                    (lastHitboxAdded[0] <= hitboxInList[0] && lastHitboxAdded[1] >= hitboxInList[1])
+                                    &&
+                                    (lastHitboxAdded[2] >= hitboxInList[2] && lastHitboxAdded[2] <= hitboxInList[3])
+                            )
+                            ||
+                            (
+                                    (lastHitboxAdded[0] <= hitboxInList[0] && lastHitboxAdded[1] >= hitboxInList[1])
+                                    &&
+                                    (lastHitboxAdded[3] >= hitboxInList[2] && lastHitboxAdded[3] <= hitboxInList[3])
+                            )
+                            ||
+                            (
+                                    (lastHitboxAdded[0] >= hitboxInList[0] && lastHitboxAdded[0] <= hitboxInList[1])
+                                    &&
+                                    (lastHitboxAdded[2] <= hitboxInList[2] && lastHitboxAdded[3] >= hitboxInList[3])
+                            )
+                            ||
+                            (
+                                    (lastHitboxAdded[1] >= hitboxInList[0] && lastHitboxAdded[1] <= hitboxInList[1])
+                                    &&
+                                    (lastHitboxAdded[2] <= hitboxInList[2] && lastHitboxAdded[3] >= hitboxInList[3])
+                            )
+                            ||
+                            (
+                                    (lastHitboxAdded[0] <= hitboxInList[0] && lastHitboxAdded[1] >= hitboxInList[1])
+                                    &&
+                                    (lastHitboxAdded[2] <= hitboxInList[2] && lastHitboxAdded[3] >= hitboxInList[3])
+                            )
+                    ) {
+                        System.out.println("^^^^ THERE IS COLLISION!");
+                        thereIsCollision = true;
+                        break;
+                    }
+                }
+            }
         }
+
+        assertFalse(thereIsCollision);
 
         Thread.sleep(10000);
     }
