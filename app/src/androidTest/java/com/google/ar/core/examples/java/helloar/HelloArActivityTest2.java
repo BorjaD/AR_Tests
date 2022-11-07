@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
@@ -32,45 +31,18 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URISyntaxException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
-import java.util.stream.Stream;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class HelloArActivityTest2 {
 
-    private Context context;
 
     @Rule
     public ActivityTestRule<HelloArActivity> mActivityTestRule = new ActivityTestRule<>(HelloArActivity.class);
-    //public IntentsTestRule<HelloArActivity> mActivityTestRule = new IntentsTestRule<>(HelloArActivity.class);
-    //public ActivityScenarioRule<HelloArActivity> mActivityTestRule = new ActivityScenarioRule <>(HelloArActivity.class);
-
-    /*
-    private HelloArActivity launchedActivity;
-
-    @Before
-    public void setUp() {
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        //this is the key part
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        //this is the key part
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        launchedActivity = mActivityTestRule.launchActivity(intent);
-    }
-     */
 
     @Test
     public void helloArActivityTest() throws InterruptedException {
@@ -86,10 +58,6 @@ public class HelloArActivityTest2 {
             boolean vertexReached = false;
             double[] maxCoordinates = {0, 0, 0};
             double[] minCoordinates = {0, 0, 0};
-            int whitespaceIndex;
-            String substr;
-            String xStr, yStr, zStr;
-            double xDou, yDou, zDou;
             boolean firstIteration = true;
 
             InputStreamReader inputStream = new InputStreamReader(mActivityTestRule.getActivity().getAssets().open("pawn.txt"));
@@ -149,8 +117,8 @@ public class HelloArActivityTest2 {
 
         // Click on the recorded video (in Downloads file)
         // Long tap (select) on a video in the gallery
-        //First video OK
 
+        //First video OK
         UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).click(200, 1000);
 
         //Second video OK
@@ -225,7 +193,7 @@ public class HelloArActivityTest2 {
             System.out.println("^^^^ hitboxMinZ: " + hitbox[4]);
             System.out.println("^^^^ hitboxMaxZ: " + hitbox[5]);
 
-            //TODO: Check if there are intersections of hitboxes between the last added and the existing ones
+            //Check if there are intersections of hitboxes between the last added and the existing ones
             if (hitboxList.size() > 1) {
                 double[] lastHitboxAdded = hitboxList.get(hitboxList.size() - 1);
 
@@ -339,17 +307,6 @@ public class HelloArActivityTest2 {
                         && view.equals(((ViewGroup) parent).getChildAt(position));
             }
         };
-    }
-
-    public double getCoordinate(String line, String axis) {
-        double res = 0;
-        switch (axis) {
-            case "x":
-
-            case "y":
-            case "z":
-        }
-        return res;
     }
 
     public ArrayList<double[]> updateMaxAndMin(List<double[]> maxAndMinList, String line, boolean firstIteration) {
