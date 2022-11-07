@@ -39,6 +39,8 @@ import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
@@ -257,23 +259,23 @@ public class HelloArActivityTest2 {
         System.out.println("Printed String: " + string);
  */
 
-        
+
         try {
             boolean vertexReached = false;
-            int[] maxCoordinates = {0, 0, 0};
-            int[] minCoordinates = {10, 10, 10};
+            double[] maxCoordinates = {0, 0, 0};
+            double[] minCoordinates = {0, 0, 0};
             int whitespaceIndex;
             String substr;
             String xStr, yStr, zStr;
             double xDou, yDou, zDou;
+            boolean firstIteration = true;
+
             InputStreamReader inputStream = new InputStreamReader(mActivityTestRule.getActivity().getAssets().open("pawn.txt"));
             BufferedReader in = new BufferedReader(inputStream);
-            //in.lines().limit(10).forEach(System.out::println);    //OK
 
-            //OK
             String line = in.readLine();
+
             while (line != null) {
-                System.out.println("^^");
                 if(!vertexReached) {
                     line = in.readLine();
                     if (line.startsWith("v ")) vertexReached = true;
@@ -281,30 +283,25 @@ public class HelloArActivityTest2 {
                 else {
                     if (!line.startsWith("v ")) break;
 
-                    //System.out.println(line);
-                    /*x = getCoordinate(line, x);
-                    y = getCoordinate(line, y);
-                    z = getCoordinate(line, z);*/
+                    // Use lines that correspond to vertexes
 
-                    /*whitespaceIndex = line.indexOf(" ");
-                    substr = line.substring(whitespaceIndex + 1);
-                    whitespaceIndex = substr.indexOf(" ");
-                    xStr = substr.substring(0, whitespaceIndex);*/
+                    List<double[]> maxAndMinList = new ArrayList<double[]>();
+                    maxAndMinList.add(maxCoordinates);
+                    maxAndMinList.add(minCoordinates);
 
-                    String[] coordinates = line.split(" ");
-                    xStr = coordinates[1];
-                    yStr = coordinates[2];
-                    zStr = coordinates[3];
+                    // If it is not the first iteration,
+                    // check if the coordinates are the largest or the smallest
+                    maxAndMinList = updateMaxAndMin(maxAndMinList, line, firstIteration);
+                    maxCoordinates = maxAndMinList.get(0);
+                    minCoordinates = maxAndMinList.get(1);
 
-                    xDou = Double.parseDouble(xStr);
-                    yDou = Double.parseDouble(yStr);
-                    zDou = Double.parseDouble(zStr);
-
-                    System.out.println("xDou = " + xDou + ". yDou = " + yDou + ". zDou = " + zDou + ".");
-
+                    if (firstIteration) firstIteration = false;
                     line = in.readLine();
                 }
             }
+
+            System.out.println("^^^^ maxCoordinates: [" + maxCoordinates[0] + ", " + maxCoordinates[1] + ", " + maxCoordinates[2] + "]");
+            System.out.println("^^^^ minCoordinates: [" + minCoordinates[0] + ", " + minCoordinates[1] + ", " + minCoordinates[2] + "]");
 
             in.close();
         } catch (IOException e) {
@@ -352,5 +349,42 @@ public class HelloArActivityTest2 {
             case "z":
         }
         return res;
+    }
+
+    public ArrayList<double[]> updateMaxAndMin(List<double[]> maxAndMinList, String line, boolean firstIteration) {
+        ArrayList<double[]> resultList = new ArrayList<double[]>();
+        String[] coordinates = line.split(" ");
+
+        // Assign the coordinates from a line to variables
+        String xStr = coordinates[1];
+        String yStr = coordinates[2];
+        String zStr = coordinates[3];
+        double xDou = Double.parseDouble(xStr);
+        double yDou = Double.parseDouble(yStr);
+        double zDou = Double.parseDouble(zStr);
+
+        double[] maxCoordinates = maxAndMinList.get(0);
+        double[] minCoordinates = maxAndMinList.get(1);
+
+        if (firstIteration) {
+            maxCoordinates[0] = xDou;
+            maxCoordinates[1] = yDou;
+            maxCoordinates[2] = zDou;
+            minCoordinates[0] = xDou;
+            minCoordinates[1] = yDou;
+            minCoordinates[2] = zDou;
+        } else {
+            if (xDou > maxCoordinates[0]) maxCoordinates[0] = xDou;
+            if (xDou < minCoordinates[0]) minCoordinates[0] = xDou;
+            if (yDou > maxCoordinates[1]) maxCoordinates[1] = yDou;
+            if (yDou < minCoordinates[1]) minCoordinates[1] = yDou;
+            if (zDou > maxCoordinates[2]) maxCoordinates[2] = zDou;
+            if (zDou < minCoordinates[2]) minCoordinates[2] = zDou;
+        }
+
+        resultList.add(maxCoordinates);
+        resultList.add(minCoordinates);
+
+        return resultList;
     }
 }
