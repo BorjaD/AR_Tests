@@ -23,6 +23,10 @@
        (https://developers.google.com/ar/devices). -->
   <uses-feature android:name="android.hardware.camera.ar" android:required="true"/>
   <uses-feature android:glEsVersion="0x00020000" android:required="true" />
+  <uses-feature android:name="com.google.ar.core.depth" />
+  <!--<uses-library android:name="android.test.runner"
+      android:required="false"
+      tools:ignore="WrongManifestParent" />-->
 
   <application
       android:allowBackup="false"
