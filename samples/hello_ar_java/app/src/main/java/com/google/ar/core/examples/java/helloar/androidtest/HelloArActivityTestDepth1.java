@@ -9,7 +9,6 @@ import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.assertTrue;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.Image;
 import android.os.Environment;
@@ -27,8 +26,9 @@ import androidx.test.rule.ActivityTestRule;
 import androidx.test.uiautomator.UiDevice;
 
 import com.google.ar.core.Anchor;
-import com.google.ar.core.examples.java.helloar.*;
-//import com.google.ar.core.examples.java.helloar.R;
+import com.google.ar.core.examples.java.helloar.HelloArActivity;
+import com.google.ar.core.examples.java.helloar.R;
+import com.google.ar.core.examples.java.helloar.WrappedAnchor;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -138,13 +138,11 @@ public class HelloArActivityTestDepth1 {
             int realXCoordinate = 50;
             int realYCoordinate = 50;
 
-            //Get the real world screenshot (not needed)
-            //File screenshot = takeScreenshot();
-
             //Get the depth image
             Image depthImage = mActivityTestRule.getActivity().getDepthImage();
 
             //TODO: Show image to check it is correct
+            // Use depthImage
             View v = mActivityTestRule.getActivity().getWindow().getDecorView();     //Debug
             ImageView mImageView;
             mImageView = (ImageView) v.findViewById(R.id.my_image_view);
@@ -159,35 +157,6 @@ public class HelloArActivityTestDepth1 {
             // There should be big colour changes
             int nearX = 0, nearY = 0;   //Known in advance
             int farX = 0, farY = 0;     //Known in advance
-
-
-            //TODO: Get the depth color of the pixel in the depth image
-            // Getting pixel color by position x and y (near)
-            int nearClr = depthImage.getRGB(nearX, nearY);
-            int nearRed =   (nearClr & 0x00ff0000) >> 16;
-            int nearGreen = (nearClr & 0x0000ff00) >> 8;
-            int nearBlue =   nearClr & 0x000000ff;
-            System.out.println("Near Red Color value = " + nearRed);
-            System.out.println("Near Green Color value = " + nearGreen);
-            System.out.println("Near Blue Color value = " + nearBlue);
-            //Or:
-            /*
-            Color mycolor = new Color(img.getRGB(x, y));
-            int red = mycolor.getRed();
-            int green = mycolor.getGreen();
-            int blue = mycolor.getBlue();
-            int alpha = mycolor.getAlpha();
-             */
-
-            // Getting pixel color by position x and y (far)
-            int farClr = depthImage.getRGB(farX, farY);
-            int farRed =   (farClr & 0x00ff0000) >> 16;
-            int farGreen = (farClr & 0x0000ff00) >> 8;
-            int farBlue =   farClr & 0x000000ff;
-            System.out.println("Far Red Color value = " + farRed);
-            System.out.println("Far Green Color value = " + farGreen);
-            System.out.println("Far Blue Color value = " + farBlue);
-
 
             /*
             Distance by colour:
@@ -204,7 +173,27 @@ public class HelloArActivityTestDepth1 {
             [ R- | G- | B+ ]
              */
             boolean correctDepth = false;
-            String nearPredominantColour = "", farPredominantColour = "";
+            String nearPredominantColour = "";
+            String farPredominantColour = "";
+
+            //Get the depth color of the pixel in the depth image
+            //Getting pixel color by position x and y
+            int nearClr = depthImage.getRGB(nearX, nearY);
+            int nearRed =   (nearClr & 0x00ff0000) >> 16;
+            int nearGreen = (nearClr & 0x0000ff00) >> 8;
+            int nearBlue =   nearClr & 0x000000ff;
+            System.out.println("Near Red Color value = " + nearRed);
+            System.out.println("Near Green Color value = " + nearGreen);
+            System.out.println("Near Blue Color value = " + nearBlue);
+            //Or:
+            /*
+            Color mycolor = new Color(img.getRGB(x, y));
+            int red = mycolor.getRed();
+            int green = mycolor.getGreen();
+            int blue = mycolor.getBlue();
+            int alpha = mycolor.getAlpha();
+             */
+
             if(nearRed > nearGreen) {
                 if (nearRed > nearBlue) {
                     nearPredominantColour = "red";
@@ -218,6 +207,14 @@ public class HelloArActivityTestDepth1 {
                     nearPredominantColour = "blue";
                 }
             }
+
+            int farClr = depthImage.getRGB(farX, farY);
+            int farRed =   (nearClr & 0x00ff0000) >> 16;
+            int farGreen = (nearClr & 0x0000ff00) >> 8;
+            int farBlue =   nearClr & 0x000000ff;
+            System.out.println("Far Red Color value = " + farRed);
+            System.out.println("Far Green Color value = " + farGreen);
+            System.out.println("Far Blue Color value = " + farBlue);
 
             if(farRed > farGreen) {
                 if (farRed > farBlue) {
@@ -233,6 +230,8 @@ public class HelloArActivityTestDepth1 {
                 }
             }
 
+
+            //Check if the depth relation is correct
             if (nearPredominantColour == "red" && farPredominantColour == "red") {
                 if (nearRed != farRed) {
                     if (nearRed > farRed) correctDepth = true;
@@ -260,6 +259,44 @@ public class HelloArActivityTestDepth1 {
         Thread.sleep(10000);
 
 
+    }
+
+    private String getPredominantColour(Image image, int x, int y) {
+        String res = "";
+
+        //TODO: Get the depth color of the pixel in the depth image
+        // Getting pixel color by position x and y (near)
+        int clr = depthImage.getRGB(x, y);
+        int red =   (clr & 0x00ff0000) >> 16;
+        int green = (clr & 0x0000ff00) >> 8;
+        int blue =   clr & 0x000000ff;
+        System.out.println("Near Red Color value = " + red);
+        System.out.println("Near Green Color value = " + green);
+        System.out.println("Near Blue Color value = " + blue);
+        //Or:
+        /*
+        Color mycolor = new Color(img.getRGB(x, y));
+        int red = mycolor.getRed();
+        int green = mycolor.getGreen();
+        int blue = mycolor.getBlue();
+        int alpha = mycolor.getAlpha();
+         */
+
+        if(red > green) {
+            if (red > blue) {
+                res = "red";
+            } else {
+                res = "blue";
+            }
+        } else {
+            if (green > blue) {
+                res = "green";
+            } else {
+                res = "blue";
+            }
+        }
+
+        return res;
     }
 
     public static Matcher<View> childAtPosition(
