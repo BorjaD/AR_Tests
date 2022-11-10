@@ -261,44 +261,6 @@ public class HelloArActivityTestDepth1 {
 
     }
 
-    private String getPredominantColour(Image image, int x, int y) {
-        String res = "";
-
-        //TODO: Get the depth color of the pixel in the depth image
-        // Getting pixel color by position x and y (near)
-        int clr = depthImage.getRGB(x, y);
-        int red =   (clr & 0x00ff0000) >> 16;
-        int green = (clr & 0x0000ff00) >> 8;
-        int blue =   clr & 0x000000ff;
-        System.out.println("Near Red Color value = " + red);
-        System.out.println("Near Green Color value = " + green);
-        System.out.println("Near Blue Color value = " + blue);
-        //Or:
-        /*
-        Color mycolor = new Color(img.getRGB(x, y));
-        int red = mycolor.getRed();
-        int green = mycolor.getGreen();
-        int blue = mycolor.getBlue();
-        int alpha = mycolor.getAlpha();
-         */
-
-        if(red > green) {
-            if (red > blue) {
-                res = "red";
-            } else {
-                res = "blue";
-            }
-        } else {
-            if (green > blue) {
-                res = "green";
-            } else {
-                res = "blue";
-            }
-        }
-
-        return res;
-    }
-
     public static Matcher<View> childAtPosition(
             final Matcher<View> parentMatcher, final int position) {
 
