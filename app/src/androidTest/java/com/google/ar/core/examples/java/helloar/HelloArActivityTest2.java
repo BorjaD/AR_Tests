@@ -36,6 +36,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+//COLLISION TEST
+//Two 3D objects cannot be in the same place (they do not touch)
+
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class HelloArActivityTest2 {
@@ -227,7 +230,6 @@ public class HelloArActivityTest2 {
                     //
                     //If MinX(B) <= MinX(A) and MaxX(B) >= MaxX(A)
                     //and MinY(B) <= MinY(A) and MaxY(B) >= MaxY(A)
-                    //TODO: Debug collision posibilities
                     if (
                             (
                                     (lastHitboxAdded[0] >= hitboxInList[0] && lastHitboxAdded[0] <= hitboxInList[1])
