@@ -9,9 +9,7 @@ android {
 
         // AR Optional apps must declare minSdkVersion >= 14.
         // AR Required apps must declare minSdkVersion >= 24.
-        //minSdkVersion 21
-        //NEWCODE
-        minSdkVersion 24
+        minSdkVersion 21
         //targetSdkVersion 31
         //targetSdkVersion 30
         targetSdkVersion 32
@@ -98,8 +96,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     //androidTestImplementation 'androidx.test.espresso:espresso-core:3.0.1'
     //androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation 'com.google.ar.sceneform.ux:sceneform-ux:1.15.0'
-    implementation "androidx.fragment:fragment:1.2.0-beta02"
 
     //androidTestImplementation 'androidx.test:runner:1.3.4'
     androidTestImplementation 'androidx.test:runner:1.0.1'
@@ -109,19 +105,3 @@ dependencies {
     //androidTestImplementation 'com.android.support.test:rules:1.0.2'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
 }
-apply plugin: 'com.google.ar.sceneform.plugin'
-
-sceneform.asset('sampledata/board.obj',
-        'default',
-        'sampledata/board.sfa',
-        'src/main/res/raw/board')
-
-sceneform.asset('sampledata/x.obj',
-        'default',
-        'sampledata/x.sfa',
-        'src/main/res/raw/x')
-
-sceneform.asset('sampledata/o.obj',
-        'default',
-        'sampledata/o.sfa',
-        'src/main/res/raw/o')
