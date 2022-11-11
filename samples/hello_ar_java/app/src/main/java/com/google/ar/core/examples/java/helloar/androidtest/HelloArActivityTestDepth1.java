@@ -8,9 +8,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.assertTrue;
 
-//import java.awt.Image;      //Error: Cannot resolve symbol 'Image'
-//import ij.IJ; import ij.io.Opener; import ij.ImagePlus; import ij.ImageJ;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -158,12 +155,12 @@ public class HelloArActivityTestDepth1 {
 
 
             //TODO: Know the coordinates of two places that are at different depth at the same time
-            // There should be big colour changes
+            // There should be big Color changes
             int nearX = 500, nearY = 100;   //Known in advance
             int farX = 70, farY = 100;      //Known in advance
 
             /*
-            Distance by colour:
+            Distance by Color:
             R < G < B
 
             [ R+ | G- | B- ]
@@ -177,16 +174,16 @@ public class HelloArActivityTestDepth1 {
             [ R- | G- | B+ ]
              */
             boolean correctDepth = false;
-            String nearPredominantColour = "";
-            String farPredominantColour = "";
+            String nearPredominantColor = "";
+            String farPredominantColor = "";
 
             //Get the depth color of the pixel in the depth image
             //Getting pixel color by position x and y
-            int nearColour = bitmapImage.getPixel(nearX, nearY);
-            int nearRed = Color.red(nearColour);
-            int nearGreen = Color.green(nearColour);
-            int nearBlue = Color.blue(nearColour);
-            int nearAlpha = Color.alpha(nearColour);
+            int nearColor = bitmapImage.getPixel(nearX, nearY);
+            int nearRed = Color.red(nearColor);
+            int nearGreen = Color.green(nearColor);
+            int nearBlue = Color.blue(nearColor);
+            int nearAlpha = Color.alpha(nearColor);
 
             /*
             int nearClr = depthImage.getRGB(nearX, nearY);
@@ -208,59 +205,59 @@ public class HelloArActivityTestDepth1 {
 
             if(nearRed > nearGreen) {
                 if (nearRed > nearBlue) {
-                    nearPredominantColour = "red";
+                    nearPredominantColor = "red";
                 } else {
-                    nearPredominantColour = "blue";
+                    nearPredominantColor = "blue";
                 }
             } else {
                 if (nearGreen > nearBlue) {
-                    nearPredominantColour = "green";
+                    nearPredominantColor = "green";
                 } else {
-                    nearPredominantColour = "blue";
+                    nearPredominantColor = "blue";
                 }
             }
 
-            int farColour = bitmapImage.getPixel(farX, farY);
-            int farRed = Color.red(farColour);
-            int farGreen = Color.green(farColour);
-            int farBlue = Color.blue(farColour);
-            int farAlpha = Color.alpha(farColour);
+            int farColor = bitmapImage.getPixel(farX, farY);
+            int farRed = Color.red(farColor);
+            int farGreen = Color.green(farColor);
+            int farBlue = Color.blue(farColor);
+            int farAlpha = Color.alpha(farColor);
 
             System.out.println("Far Red Color value = " + farRed);
             System.out.println("Far Green Color value = " + farGreen);
             System.out.println("Far Blue Color value = " + farBlue);
 
-            if(farRed > farGreen) {
+            if (farRed > farGreen) {
                 if (farRed > farBlue) {
-                    farPredominantColour = "red";
+                    farPredominantColor = "red";
                 } else {
-                    farPredominantColour = "blue";
+                    farPredominantColor = "blue";
                 }
             } else {
                 if (farGreen > farBlue) {
-                    farPredominantColour = "green";
+                    farPredominantColor = "green";
                 } else {
-                    farPredominantColour = "blue";
+                    farPredominantColor = "blue";
                 }
             }
 
 
             //Check if the depth relation is correct
-            if (nearPredominantColour == "red" && farPredominantColour == "red") {
+            if (nearPredominantColor == "red" && farPredominantColor == "red") {
                 if (nearRed != farRed) {
                     if (nearRed > farRed) correctDepth = true;
                 }
-            } else if (nearPredominantColour == "red" && farPredominantColour == "green") {
+            } else if (nearPredominantColor == "red" && farPredominantColor == "green") {
                 correctDepth = true;
-            } else if (nearPredominantColour == "red" && farPredominantColour == "blue") {
+            } else if (nearPredominantColor == "red" && farPredominantColor == "blue") {
                 correctDepth = true;
-            } else if (nearPredominantColour == "green" && farPredominantColour == "green") {
+            } else if (nearPredominantColor == "green" && farPredominantColor == "green") {
                 if (nearGreen != farGreen) {
                     if (nearGreen > farGreen) correctDepth = true;
                 }
-            } else if (nearPredominantColour == "green" && farPredominantColour == "blue") {
+            } else if (nearPredominantColor == "green" && farPredominantColor == "blue") {
                 correctDepth = true;
-            } else if (nearPredominantColour == "blue" && farPredominantColour == "blue") {
+            } else if (nearPredominantColor == "blue" && farPredominantColor == "blue") {
                 if (nearBlue != farBlue) {
                     if (nearBlue > farBlue) correctDepth = true;
                 }
@@ -319,22 +316,7 @@ public class HelloArActivityTestDepth1 {
             e.printStackTrace();
         }
 
-        /*Intent intent = new Intent(Intent.ACTION_VIEW);
-        Uri uri = Uri.fromFile(fileScreenshot);
-        intent.setDataAndType(uri,"image/jpeg");
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mActivityTestRule.getActivity().startActivity(intent);*/
-
         return fileScreenshot;
     }
 
-    public Color getDepthColor() {
-        Color a = null;
-        //a = new Color(255, 0, 255);
-
-        Bitmap bm = null;
-        int pixelColor1 = bm.getPixel(2, 2);
-
-        return a;
-    }
 }
