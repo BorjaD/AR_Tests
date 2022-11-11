@@ -8,7 +8,11 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.assertTrue;
 
+//import java.awt.Image;      //Error: Cannot resolve symbol 'Image'
+//import ij.IJ; import ij.io.Opener; import ij.ImagePlus; import ij.ImageJ;
+
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.Image;
 import android.os.Environment;
@@ -39,6 +43,7 @@ import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.nio.ByteBuffer;
 import java.util.List;
 
 
@@ -133,13 +138,12 @@ public class HelloArActivityTestDepth1 {
             //TEST CASE: The depth detected by the application corresponds to the real depth
             wait(10000);
 
-            //Information of a near real-world object
-            int realDistance = 60;
-            int realXCoordinate = 50;
-            int realYCoordinate = 50;
-
             //Get the depth image
             Image depthImage = mActivityTestRule.getActivity().getDepthImage();
+            ByteBuffer buffer = depthImage.getPlanes()[0].getBuffer();
+            byte[] bytes = new byte[buffer.capacity()];
+            buffer.get(bytes);
+            Bitmap bitmapImage = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, null);
 
             //TODO: Show image to check it is correct
             // Use depthImage
@@ -155,8 +159,8 @@ public class HelloArActivityTestDepth1 {
 
             //TODO: Know the coordinates of two places that are at different depth at the same time
             // There should be big colour changes
-            int nearX = 0, nearY = 0;   //Known in advance
-            int farX = 0, farY = 0;     //Known in advance
+            int nearX = 500, nearY = 100;   //Known in advance
+            int farX = 70, farY = 100;      //Known in advance
 
             /*
             Distance by colour:
@@ -178,21 +182,29 @@ public class HelloArActivityTestDepth1 {
 
             //Get the depth color of the pixel in the depth image
             //Getting pixel color by position x and y
+            int nearColour = bitmapImage.getPixel(nearX, nearY);
+            int nearRed = Color.red(nearColour);
+            int nearGreen = Color.green(nearColour);
+            int nearBlue = Color.blue(nearColour);
+            int nearAlpha = Color.alpha(nearColour);
+
+            /*
             int nearClr = depthImage.getRGB(nearX, nearY);
             int nearRed =   (nearClr & 0x00ff0000) >> 16;
             int nearGreen = (nearClr & 0x0000ff00) >> 8;
             int nearBlue =   nearClr & 0x000000ff;
-            System.out.println("Near Red Color value = " + nearRed);
-            System.out.println("Near Green Color value = " + nearGreen);
-            System.out.println("Near Blue Color value = " + nearBlue);
-            //Or:
+            */
             /*
             Color mycolor = new Color(img.getRGB(x, y));
             int red = mycolor.getRed();
             int green = mycolor.getGreen();
             int blue = mycolor.getBlue();
             int alpha = mycolor.getAlpha();
-             */
+            */
+
+            System.out.println("Near Red Color value = " + nearRed);
+            System.out.println("Near Green Color value = " + nearGreen);
+            System.out.println("Near Blue Color value = " + nearBlue);
 
             if(nearRed > nearGreen) {
                 if (nearRed > nearBlue) {
@@ -208,10 +220,12 @@ public class HelloArActivityTestDepth1 {
                 }
             }
 
-            int farClr = depthImage.getRGB(farX, farY);
-            int farRed =   (nearClr & 0x00ff0000) >> 16;
-            int farGreen = (nearClr & 0x0000ff00) >> 8;
-            int farBlue =   nearClr & 0x000000ff;
+            int farColour = bitmapImage.getPixel(farX, farY);
+            int farRed = Color.red(farColour);
+            int farGreen = Color.green(farColour);
+            int farBlue = Color.blue(farColour);
+            int farAlpha = Color.alpha(farColour);
+
             System.out.println("Far Red Color value = " + farRed);
             System.out.println("Far Green Color value = " + farGreen);
             System.out.println("Far Blue Color value = " + farBlue);
