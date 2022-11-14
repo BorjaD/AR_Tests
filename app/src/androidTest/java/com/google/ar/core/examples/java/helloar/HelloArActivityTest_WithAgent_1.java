@@ -8,6 +8,7 @@ import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 
 import org.junit.Rule;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import eu.iv4xr.framework.mainConcepts.TestAgent;
@@ -26,7 +27,7 @@ public class HelloArActivityTest_WithAgent_1 {
 
 
 
-    //@Test
+    @Test
     public void helloArActivityTest() throws InterruptedException {
 
         TestAgent agent = new TestAgent("agentSmith","tester") ;
@@ -37,7 +38,7 @@ public class HelloArActivityTest_WithAgent_1 {
         GoalLib goalLib = new GoalLib() ;
         GoalStructure G = SEQ(
                 goalLib.clickButtonG(agent, "Playback", 2000),
-                goalLib.selectVideoG(agent, 1, 1000),
+                goalLib.selectVideoG(agent, 1, 25000),
                 goalLib.tapScreenG(agent,300,1500,3000),
                 goalLib.tapScreenG(agent,600,1500,3000),
                 goalLib.tapScreenG(agent,400,1000,3000),
@@ -58,8 +59,10 @@ public class HelloArActivityTest_WithAgent_1 {
             //  It should only be able to be rotated to left/right (qy)
             for(WorldEntity a : state.worldmodel().elements.values()) {
                 if (a.type.equals("3DObj")) {
-                    assertTrue((int) a.properties.get("qx") == 0.0) ;
-                    assertTrue((int) a.properties.get("qz") == 0.0) ;
+                    System.out.println("a.properties.get(\"qx\"): " + a.properties.get("qx"));
+                    System.out.println("a.properties.get(\"qz\"): " + a.properties.get("qz"));
+                    assertTrue((float) a.properties.get("qx") == 0.0) ;
+                    assertTrue((float) a.properties.get("qz") == 0.0) ;
                 }
 
                 numberOfAnchorsDisplayed ++;
