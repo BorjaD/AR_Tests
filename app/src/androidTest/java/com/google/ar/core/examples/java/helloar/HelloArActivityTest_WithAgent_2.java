@@ -9,6 +9,7 @@ import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 
 import org.junit.Rule;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.BufferedReader;
@@ -34,6 +35,7 @@ public class HelloArActivityTest_WithAgent_2 {
     @Rule
     public ActivityTestRule<HelloArActivity> mActivityTestRule = new ActivityTestRule<>(HelloArActivity.class);
 
+    @Test
     public void helloArActivityTest() throws InterruptedException {
         //FOR A CERTAIN 3D OBJECT
         double xLength = 0, yLength = 0, zLength = 0;
@@ -100,7 +102,7 @@ public class HelloArActivityTest_WithAgent_2 {
         GoalStructure G = SEQ(
                 goalLib.clickButtonG(agent, "Playback", 2000),
                 goalLib.selectVideoG(agent, 1, 1000),
-                goalLib.tapScreenG(agent,300,1500,3000),
+                goalLib.tapScreenG(agent,300,1500,25000),
                 goalLib.tapScreenG(agent,600,1500,3000),
                 goalLib.tapScreenG(agent,400,1000,3000),
                 goalLib.tapScreenG(agent,500,1000,5000)
