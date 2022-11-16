@@ -37,7 +37,6 @@ public class CollisionTest {
 
     @Test
     public void helloArActivityTest() throws InterruptedException {
-        System.out.println("COL CP1");
         //FOR A CERTAIN 3D OBJECT
         double xLength = 0, yLength = 0, zLength = 0;
         boolean thereIsCollision = false;
@@ -92,7 +91,6 @@ public class CollisionTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("COL CP2");
 
         TestAgent agent = new TestAgent("agentSmith","tester") ;
         MyAgentState state = new MyAgentState() ;
@@ -109,7 +107,6 @@ public class CollisionTest {
                 goalLib.tapScreenG(agent,500,1000,5000)
         ) ;
         agent.setGoal(G) ;
-        System.out.println("COL CP3");
 
         int k=0 ;
         while(G.getStatus().inProgress() && k < 20) {
