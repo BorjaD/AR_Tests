@@ -30,7 +30,7 @@ import nl.uu.cs.aplib.mainConcepts.GoalStructure;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class HelloArActivityTest_WithAgent_2 {
+public class CollisionTest {
 
     @Rule
     public ActivityTestRule<HelloArActivity> mActivityTestRule = new ActivityTestRule<>(HelloArActivity.class);

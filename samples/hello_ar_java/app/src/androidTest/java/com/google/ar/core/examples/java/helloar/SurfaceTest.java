@@ -20,7 +20,7 @@ import nl.uu.cs.aplib.mainConcepts.GoalStructure;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class HelloArActivityTest_WithAgent_1 {
+public class SurfaceTest {
 
     @Rule
     public ActivityTestRule<HelloArActivity> mActivityTestRule = new ActivityTestRule<>(HelloArActivity.class);

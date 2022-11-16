@@ -45,7 +45,7 @@ import java.util.List;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class HelloArActivityTestDepth1 {
+public class DepthTest {
 
     @Rule
     public ActivityTestRule<HelloArActivity> mActivityTestRule = new ActivityTestRule<>(HelloArActivity.class);
