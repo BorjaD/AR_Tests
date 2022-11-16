@@ -6,7 +6,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-import static com.google.ar.core.examples.java.helloar.HelloArActivityTest.childAtPosition;
+import static helloAr.testAgentSupport.TestHelper.childAtPosition;
 import static org.hamcrest.Matchers.allOf;
 
 import androidx.test.espresso.ViewInteraction;
