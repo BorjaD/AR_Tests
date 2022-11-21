@@ -38,7 +38,7 @@ public class SurfaceTest {
         GoalLib goalLib = new GoalLib() ;
         GoalStructure G = SEQ(
                 goalLib.clickButtonG(agent, "Playback", 2000),
-                goalLib.selectVideoG(agent, 1, 25000),
+                goalLib.selectVideoG(agent, 1, 35000),
                 goalLib.tapScreenG(agent,300,1500,3000),
                 goalLib.tapScreenG(agent,600,1500,3000),
                 goalLib.tapScreenG(agent,400,1000,3000),
