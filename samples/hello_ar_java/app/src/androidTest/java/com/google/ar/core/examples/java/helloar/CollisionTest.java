@@ -76,6 +76,7 @@ public class CollisionTest {
                     minCoordinates = maxAndMinList.get(1);
 
                     if (firstIteration) firstIteration = false;
+
                     line = in.readLine();
                 }
             }
@@ -103,8 +104,8 @@ public class CollisionTest {
                 goalLib.selectVideoG(agent, 1, 35000),
                 goalLib.tapScreenG(agent,300,1500,3000),
                 goalLib.tapScreenG(agent,600,1500,3000),
-                goalLib.tapScreenG(agent,400,1000,3000)
-                //goalLib.tapScreenG(agent,500,1000,5000)
+                goalLib.tapScreenG(agent,400,1000,3000),
+                goalLib.tapScreenG(agent,500,1000,5000)
         ) ;
         agent.setGoal(G) ;
 
