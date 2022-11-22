@@ -103,8 +103,8 @@ public class CollisionTest {
                 goalLib.selectVideoG(agent, 1, 35000),
                 goalLib.tapScreenG(agent,300,1500,3000),
                 goalLib.tapScreenG(agent,600,1500,3000),
-                goalLib.tapScreenG(agent,400,1000,3000),
-                goalLib.tapScreenG(agent,500,1000,5000)
+                goalLib.tapScreenG(agent,400,1000,3000)
+                //goalLib.tapScreenG(agent,500,1000,5000)
         ) ;
         agent.setGoal(G) ;
 
@@ -112,7 +112,7 @@ public class CollisionTest {
         while(G.getStatus().inProgress() && k < 20) {
             System.out.println(">>> k="+k) ;
             agent.update() ;
-            int numberOfAnchorsDisplayed = 0;
+            int numberOfAnchorsDisplayed = 1;
 
             for(WorldEntity a : state.worldmodel().elements.values()) {
                 if (a.type.equals("3DObj")) {
