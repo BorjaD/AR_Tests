@@ -4,6 +4,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static nl.uu.cs.aplib.AplibEDSL.SEQ;
 
+import android.content.DialogInterface;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
@@ -254,9 +258,15 @@ public class CollisionTest {
             assertTrue(numberOfAnchorsDisplayed <= 4);
         }
 
+        //mActivityTestRule.getActivity().showDialog();
+
         assertTrue(G.getStatus().success());
 
     }
+
+    /*private void openDialog() {
+        TestDialog dialog = new TestDialog();
+    }*/
 
     public ArrayList<double[]> updateMaxAndMin(List<double[]> maxAndMinList, String line, boolean firstIteration) {
         ArrayList<double[]> resultList = new ArrayList<double[]>();

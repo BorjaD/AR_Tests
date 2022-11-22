@@ -31,6 +31,9 @@ import android.opengl.Matrix;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -41,6 +44,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.Toast;
+
+import androidx.annotation.WorkerThread;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -1279,6 +1284,47 @@ public class HelloArActivity<depthImage> extends AppCompatActivity implements Sa
   public Image getDepthImage() {
     return depthImage;
   }
+
+  /*Handler mHandler = new Handler(Looper.getMainLooper()) {
+    @Override
+    public void handleMessage(Message message) {
+      // This is where you do your work in the UI thread.
+      // Your worker tells you in the message what to do.
+    }
+  };*/
+
+  /*@WorkerThread
+  void workerThread() {
+    HelloArActivity.runOnUiThread(() -> {
+      // This is where your UI code goes.
+    }
+  }*/
+
+  /*void workerThread() {
+    // And this is how you call it from the worker thread:
+    Message message = mHandler.obtainMessage(command, parameter);
+    message.sendToTarget();
+  }*/
+
+  /*public void showDialog() {
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    builder.setTitle("Título");
+    builder.setMessage("¿Quieres eliminar todos los datos?")
+            .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialogInterface, int i) {
+                //Toast.makeText(getApplicationContext(), "Eliminamos datos...", Toast.LENGTH_SHORT).show();
+                finish();
+              }
+            })
+            .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialogInterface, int i) {
+                //Toast.makeText(getApplicationContext(), "Cancel...", Toast.LENGTH_SHORT).show();
+              dialogInterface.cancel();
+              }
+            }).show();
+  }*/
 
 }
 
