@@ -91,6 +91,8 @@ public class MyAgentEnv extends Iv4xrEnvironment {
             e.properties.put("yAxis", anchor.getPose().getYAxis()) ;
             e.properties.put("zAxis", anchor.getPose().getZAxis()) ;
 
+            e.properties.put("trackingState", String.valueOf(anchor.getTrackingState())) ;
+
             wom.elements.put(e.id,e) ;
         }
         this.timeStamp++ ;
