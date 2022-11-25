@@ -80,8 +80,6 @@ public class HelloArActivityTestDepth1 {
         //Thread.sleep(1000);
         //UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).click(900, 300);
 
-        String TAG = "MyActivity";
-
         //TEST CASE: The depth detected by the application corresponds to the real depth
 
         //Get the depth image
