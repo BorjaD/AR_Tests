@@ -63,7 +63,7 @@ public class HelloArActivityTestDepth1 {
                                 3),
                         isDisplayed()));
         appCompatButton.perform(click());
-        Thread.sleep(2000);
+        Thread.sleep(10000);
 
         // Click on the recorded video (in Downloads file)
         // Long tap (select) on a video in the gallery
@@ -80,24 +80,9 @@ public class HelloArActivityTestDepth1 {
         //Thread.sleep(1000);
         //UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).click(900, 300);
 
-        Thread.sleep(40000);
-
-        //Tap the screen to place an item
-        //onView(withId(R.id.surfaceview)).perform(touchDownAndUp(50, 50));
-        UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).click(300, 1500);
-        Thread.sleep(3000);
-        UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).click(600, 1500);
-        Thread.sleep(3000);
-        UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).click(400, 1000);
-        Thread.sleep(3000);
-        UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).click(500, 1000);
-        Thread.sleep(5000);
-
         String TAG = "MyActivity";
 
-
         //TEST CASE: The depth detected by the application corresponds to the real depth
-        wait(10000);
 
         //Get the depth image
         Image depthImage = mActivityTestRule.getActivity().getDepthImage();
