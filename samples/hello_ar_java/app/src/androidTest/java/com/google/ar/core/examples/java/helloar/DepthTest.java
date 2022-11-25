@@ -180,7 +180,12 @@ public class DepthTest {
                     }
                 }
 
-                assertTrue(correctDepth);
+                boolean depthCondition = correctDepth;
+                if (!depthCondition) {
+                    mActivityTestRule.getActivity().testFinishedMessage(false);
+                    Thread.sleep(60000);
+                }
+                assertTrue(depthCondition);
 
                 for (WorldEntity a : state.worldmodel().elements.values()) {
                     if (a.type.equals("3DObj")) {
@@ -189,10 +194,22 @@ public class DepthTest {
                 }
 
                 //There are a maximum of 4 anchors displayed
-                assertTrue(numberOfAnchorsDisplayed <= 4);
+                boolean maxAnchorsCondition = numberOfAnchorsDisplayed <= 4;
+                if (!maxAnchorsCondition) {
+                    mActivityTestRule.getActivity().testFinishedMessage(false);
+                    Thread.sleep(60000);
+                }
+                assertTrue(maxAnchorsCondition);
 
-                assertTrue(G.getStatus().success());
+                boolean statusCondition = G.getStatus().success();
+                if(!statusCondition) {
+                    mActivityTestRule.getActivity().testFinishedMessage(false);
+                    Thread.sleep(60000);
+                }
+                assertTrue(statusCondition);
             } catch (Exception e) {
+                mActivityTestRule.getActivity().testFinishedMessage(false);
+                Thread.sleep(60000);
                 assertTrue(false);
             }
         }

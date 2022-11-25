@@ -1,13 +1,8 @@
 package com.google.ar.core.examples.java.helloar;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static nl.uu.cs.aplib.AplibEDSL.SEQ;
 
-import android.content.DialogInterface;
-import android.widget.Toast;
-
-import androidx.appcompat.app.AlertDialog;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
@@ -248,25 +243,35 @@ public class CollisionTest {
                         }
                     }
 
-                    assertFalse(thereIsCollision);
+                    boolean collisionCondition = thereIsCollision;
+                    if(!collisionCondition) {
+                        mActivityTestRule.getActivity().testFinishedMessage(false);
+                        Thread.sleep(60000);
+                    }
+                    assertTrue(collisionCondition) ;
+
                 }
 
                 numberOfAnchorsDisplayed ++;
             }
 
             //There are a maximum of 4 anchors displayed
-            assertTrue(numberOfAnchorsDisplayed <= 4);
+            boolean maxAnchorsCondition = numberOfAnchorsDisplayed <= 4;
+            if (!maxAnchorsCondition) {
+                mActivityTestRule.getActivity().testFinishedMessage(false);
+                Thread.sleep(60000);
+            }
+            assertTrue(maxAnchorsCondition);
         }
 
-        //mActivityTestRule.getActivity().showDialog();
-
-        assertTrue(G.getStatus().success());
+        boolean statusCondition = G.getStatus().success();
+        if(!statusCondition) {
+            mActivityTestRule.getActivity().testFinishedMessage(false);
+            Thread.sleep(60000);
+        }
+        assertTrue(statusCondition);
 
     }
-
-    /*private void openDialog() {
-        TestDialog dialog = new TestDialog();
-    }*/
 
     public ArrayList<double[]> updateMaxAndMin(List<double[]> maxAndMinList, String line, boolean firstIteration) {
         ArrayList<double[]> resultList = new ArrayList<double[]>();
@@ -304,5 +309,4 @@ public class CollisionTest {
 
         return resultList;
     }
-
 }

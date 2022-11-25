@@ -30,8 +30,6 @@ public class RotationTest {
     @Rule
     public ActivityTestRule<HelloArActivity> mActivityTestRule = new ActivityTestRule<>(HelloArActivity.class);
 
-
-
     @Test
     public void helloArActivityTest() throws InterruptedException {
 
@@ -89,11 +87,26 @@ public class RotationTest {
             }
 
             //There are a maximum of 4 anchors displayed
-            assertTrue(numberOfAnchorsDisplayed <= 4);
+            boolean maxAnchorsCondition = numberOfAnchorsDisplayed <= 4;
+            if (!maxAnchorsCondition) {
+                mActivityTestRule.getActivity().testFinishedMessage(false);
+                Thread.sleep(60000);
+            }
+            assertTrue(maxAnchorsCondition);
         }
 
-        assertTrue(correctRotation);
-        assertTrue(G.getStatus().success());
+        boolean rotationCondition = correctRotation;
+        if (!rotationCondition) {
+            mActivityTestRule.getActivity().testFinishedMessage(false);
+            Thread.sleep(60000);
+        }
+        assertTrue(rotationCondition);
 
+        boolean statusCondition = G.getStatus().success();
+        if(!statusCondition) {
+            mActivityTestRule.getActivity().testFinishedMessage(false);
+            Thread.sleep(60000);
+        }
+        assertTrue(statusCondition);
     }
 }

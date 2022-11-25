@@ -1302,46 +1302,4 @@ public class HelloArActivity<depthImage> extends AppCompatActivity implements Sa
       });
     }
   }
-
-  /*Handler mHandler = new Handler(Looper.getMainLooper()) {
-    @Override
-    public void handleMessage(Message message) {
-      // This is where you do your work in the UI thread.
-      // Your worker tells you in the message what to do.
-    }
-  };*/
-
-  /*@WorkerThread
-  void workerThread() {
-    HelloArActivity.runOnUiThread(() -> {
-      // This is where your UI code goes.
-    }
-  }*/
-
-  /*void workerThread() {
-    // And this is how you call it from the worker thread:
-    Message message = mHandler.obtainMessage(command, parameter);
-    message.sendToTarget();
-  }*/
-
-  /*public void showDialog() {
-    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    builder.setTitle("Título");
-    builder.setMessage("¿Quieres eliminar todos los datos?")
-            .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
-              @Override
-              public void onClick(DialogInterface dialogInterface, int i) {
-                //Toast.makeText(getApplicationContext(), "Eliminamos datos...", Toast.LENGTH_SHORT).show();
-                finish();
-              }
-            })
-            .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-              @Override
-              public void onClick(DialogInterface dialogInterface, int i) {
-                //Toast.makeText(getApplicationContext(), "Cancel...", Toast.LENGTH_SHORT).show();
-              dialogInterface.cancel();
-              }
-            }).show();
-  }*/
-
 }

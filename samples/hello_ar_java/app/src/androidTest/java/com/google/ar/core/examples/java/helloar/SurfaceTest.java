@@ -3,9 +3,6 @@ package com.google.ar.core.examples.java.helloar;
 import static org.junit.Assert.assertTrue;
 import static nl.uu.cs.aplib.AplibEDSL.SEQ;
 
-import android.view.View;
-import android.widget.TextView;
-
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
@@ -28,8 +25,6 @@ public class SurfaceTest {
     @Rule
     public ActivityTestRule<HelloArActivity> mActivityTestRule = new ActivityTestRule<>(HelloArActivity.class);
 
-
-
     @Test
     public void helloArActivityTest() throws InterruptedException {
 
@@ -49,7 +44,6 @@ public class SurfaceTest {
         ) ;
         agent.setGoal(G) ;
 
-
         int k=0 ;
         while(G.getStatus().inProgress() && k < 20) {
             System.out.println(">>> k="+k) ;
@@ -68,10 +62,8 @@ public class SurfaceTest {
                     if(!surfaceCondition) {
                         mActivityTestRule.getActivity().testFinishedMessage(false);
                         Thread.sleep(60000);
-                        assertTrue(surfaceCondition);
-                    } else {
-                        assertTrue(surfaceCondition) ;
                     }
+                    assertTrue(surfaceCondition) ;
                 }
                 numberOfAnchorsDisplayed ++;
             }
@@ -81,19 +73,15 @@ public class SurfaceTest {
             if (!maxAnchorsCondition) {
                 mActivityTestRule.getActivity().testFinishedMessage(false);
                 Thread.sleep(60000);
-                assertTrue(maxAnchorsCondition);
-            } else {
-                assertTrue(maxAnchorsCondition);
             }
+            assertTrue(maxAnchorsCondition);
         }
 
         boolean statusCondition = G.getStatus().success();
         if(!statusCondition) {
             mActivityTestRule.getActivity().testFinishedMessage(false);
             Thread.sleep(60000);
-            assertTrue(statusCondition);
-        } else {
-            assertTrue(statusCondition);
         }
+        assertTrue(statusCondition);
     }
 }
