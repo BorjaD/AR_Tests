@@ -189,6 +189,8 @@ public class HelloArActivity extends AppCompatActivity implements SampleRender.R
       return wrappedAnchors ;
   }
 
+  Image depthImage = null;
+
   // Environmental HDR
   private Texture dfgTexture;
   private SpecularCubemapFilter cubemapFilter;
@@ -613,8 +615,9 @@ public class HelloArActivity extends AppCompatActivity implements SampleRender.R
     if (camera.getTrackingState() == TrackingState.TRACKING
         && (depthSettings.useDepthForOcclusion()
             || depthSettings.depthColorVisualizationEnabled())) {
-      try (Image depthImage = frame.acquireDepthImage()) {
-        backgroundRenderer.updateCameraDepthTexture(depthImage);
+      try (Image depthIm = frame.acquireDepthImage()) {
+        backgroundRenderer.updateCameraDepthTexture(depthIm);
+        depthImage = depthIm;
       } catch (NotYetAvailableException e) {
         // This normally means that depth data is not available yet. This is normal so we will not
         // spam the logcat with this.
@@ -1358,6 +1361,10 @@ public class HelloArActivity extends AppCompatActivity implements SampleRender.R
     updatePlaybackButton();
 
     return true;
+  }
+
+  public Image getDepthImage() {
+    return depthImage;
   }
 
 }
