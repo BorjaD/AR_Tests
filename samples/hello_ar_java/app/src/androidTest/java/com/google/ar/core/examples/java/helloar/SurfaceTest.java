@@ -3,6 +3,9 @@ package com.google.ar.core.examples.java.helloar;
 import static org.junit.Assert.assertTrue;
 import static nl.uu.cs.aplib.AplibEDSL.SEQ;
 
+import android.view.View;
+import android.widget.TextView;
+
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
@@ -47,7 +50,6 @@ public class SurfaceTest {
         agent.setGoal(G) ;
 
 
-
         int k=0 ;
         while(G.getStatus().inProgress() && k < 20) {
             System.out.println(">>> k="+k) ;
@@ -61,19 +63,37 @@ public class SurfaceTest {
                 if (a.type.equals("3DObj")) {
                     System.out.println("a.properties.get(\"qx\"): " + a.properties.get("qx"));
                     System.out.println("a.properties.get(\"qz\"): " + a.properties.get("qz"));
-                    assertTrue((float) a.properties.get("qx") == 0.0) ;
-                    assertTrue((float) a.properties.get("qz") == 0.0) ;
-                }
 
+                    boolean surfaceCondition = ((float) a.properties.get("qx") == 0.0) && ((float) a.properties.get("qz") == 0.0);
+                    if(!surfaceCondition) {
+                        mActivityTestRule.getActivity().testFinishedMessage(false);
+                        Thread.sleep(60000);
+                        assertTrue(surfaceCondition);
+                    } else {
+                        assertTrue(surfaceCondition) ;
+                    }
+                }
                 numberOfAnchorsDisplayed ++;
             }
 
             //There are a maximum of 4 anchors displayed
-            assertTrue(numberOfAnchorsDisplayed <= 4);
+            boolean maxAnchorsCondition = numberOfAnchorsDisplayed <= 4;
+            if (!maxAnchorsCondition) {
+                mActivityTestRule.getActivity().testFinishedMessage(false);
+                Thread.sleep(60000);
+                assertTrue(maxAnchorsCondition);
+            } else {
+                assertTrue(maxAnchorsCondition);
+            }
         }
 
-        assertTrue(G.getStatus().success());
-
+        boolean statusCondition = G.getStatus().success();
+        if(!statusCondition) {
+            mActivityTestRule.getActivity().testFinishedMessage(false);
+            Thread.sleep(60000);
+            assertTrue(statusCondition);
+        } else {
+            assertTrue(statusCondition);
+        }
     }
-
 }

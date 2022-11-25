@@ -31,9 +31,6 @@ import android.opengl.Matrix;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -43,9 +40,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.WorkerThread;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -224,12 +221,15 @@ public class HelloArActivity<depthImage> extends AppCompatActivity implements Sa
   //
 
   Image depthImage = null;
+  TextView myTextViewPassed, myTextViewNotPassed;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     surfaceView = findViewById(R.id.surfaceview);
+    myTextViewPassed = (TextView)findViewById(R.id.my_text_view_passed);
+    myTextViewNotPassed = (TextView)findViewById(R.id.my_text_view_not_passed);
     displayRotationHelper = new DisplayRotationHelper(/*context=*/ this);
 
     // Set up touch listener.
@@ -1283,6 +1283,24 @@ public class HelloArActivity<depthImage> extends AppCompatActivity implements Sa
 
   public Image getDepthImage() {
     return depthImage;
+  }
+
+  public void testFinishedMessage(boolean passed) {
+    if (passed) {
+      runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+          myTextViewPassed.setVisibility(View.VISIBLE);
+        }
+      });
+    } else {
+      runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+          myTextViewNotPassed.setVisibility(View.VISIBLE);
+        }
+      });
+    }
   }
 
   /*Handler mHandler = new Handler(Looper.getMainLooper()) {

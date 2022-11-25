@@ -70,16 +70,39 @@
       android:text="Playback"
       android:textColor="@android:color/holo_green_light" />
 
-  <LinearLayout
-      android:id="@+id/my_image_view_layout"
-      xmlns:android="http://schemas.android.com/apk/res/android"
+  <ImageView
+      android:id="@+id/my_image_view"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content" />
+
+  <TextView
+      android:id="@+id/my_text_view_passed"
       android:layout_width="match_parent"
-      android:layout_height="match_parent">
-    <ImageView
-        android:id="@+id/my_image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
-  </LinearLayout>
+      android:layout_height="match_parent"
+      android:layout_gravity="center"
+      android:layout_weight="1"
+      android:background="#595959"
+      android:gravity="center"
+      android:text="TEST PASSED"
+      android:textAlignment="center"
+      android:textColor="#8BC34A"
+      android:textSize="34sp"
+      android:typeface="normal"
+      android:visibility="gone"/>
+
+  <TextView
+      android:id="@+id/my_text_view_not_passed"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_gravity="center"
+      android:layout_weight="1"
+      android:background="#595959"
+      android:gravity="center"
+      android:text="TEST NOT PASSED"
+      android:textAlignment="center"
+      android:textColor="#FF8A65"
+      android:textSize="34sp"
+      android:typeface="normal"
+      android:visibility="gone" />
 
 </RelativeLayout>
