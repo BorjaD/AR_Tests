@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/arcore-android-sdk.iml" filepath="$PROJECT_DIR$/.idea/arcore-android-sdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AR_Tests.iml" filepath="$PROJECT_DIR$/.idea/modules/AR_Tests.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/AR_Tests.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/AR_Tests.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/AR_Tests.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/AR_Tests.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/AR_Tests.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/AR_Tests.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/AR_Tests.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/AR_Tests.app.unitTest.iml" />
     </modules>
   </component>
 </project>
