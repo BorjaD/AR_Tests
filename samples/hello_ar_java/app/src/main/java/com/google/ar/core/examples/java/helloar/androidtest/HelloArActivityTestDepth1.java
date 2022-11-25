@@ -94,70 +94,33 @@ public class HelloArActivityTestDepth1 {
         Thread.sleep(5000);
 
         String TAG = "MyActivity";
-        List<WrappedAnchor> anchorsList = mActivityTestRule.getActivity().getAnchors();
-        Log.d(TAG, "Number of anchors: " + anchorsList.size());
-        for(WrappedAnchor wAnchor : anchorsList) {
-            Anchor anchor = wAnchor.getAnchor();
-            float qx = anchor.getPose().qx();
-            float qy = anchor.getPose().qy();
-            float qz = anchor.getPose().qz();
-            float qw = anchor.getPose().qw();
-
-            float tx = anchor.getPose().tx();
-            float ty = anchor.getPose().ty();
-            float tz = anchor.getPose().tz();
-
-            float[] xAxis = anchor.getPose().getXAxis();
-            float[] yAxis = anchor.getPose().getYAxis();
-            float[] zAxis = anchor.getPose().getZAxis();
-
-            Log.d(TAG, "qx = " + qx);
-            Log.d(TAG, "qy = " + qy);
-            Log.d(TAG, "qz = " + qz);
-            Log.d(TAG, "qw = " + qw);
-            Log.d(TAG, "tx = " + tx);
-            Log.d(TAG, "ty = " + ty);
-            Log.d(TAG, "tz = " + tz);
-
-            Log.d(TAG, "xAxis:");
-            for(float i : xAxis){
-                Log.d(TAG, "" + i);
-            }
-            Log.d(TAG, "yAxis:");
-            for(float i : yAxis){
-                Log.d(TAG, "" + i);
-            }
-            Log.d(TAG, "zAxis:");
-            for(float i : zAxis){
-                Log.d(TAG, "" + i);
-            }
-
-            //TEST CASE: The depth detected by the application corresponds to the real depth
-            wait(10000);
-
-            //Get the depth image
-            Image depthImage = mActivityTestRule.getActivity().getDepthImage();
-            ByteBuffer buffer = depthImage.getPlanes()[0].getBuffer();
-            byte[] bytes = new byte[buffer.capacity()];
-            buffer.get(bytes);
-            Bitmap bitmapImage = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, null);
-
-            //TODO: Show image to check it is correct
-            // Use depthImage
-            View v = mActivityTestRule.getActivity().getWindow().getDecorView();     //Debug
-            ImageView mImageView;
-            mImageView = (ImageView) v.findViewById(R.id.my_image_view);
-            //new v             https://stackoverflow.com/questions/10796660/convert-image-to-bitmap
-            mImageView.buildDrawingCache();
-            Bitmap bmap = mImageView.getDrawingCache();
-            //new ^
-            mImageView.setImageBitmap(bmap);
 
 
-            //TODO: Know the coordinates of two places that are at different depth at the same time
-            // There should be big Color changes
-            int nearX = 500, nearY = 100;   //Known in advance
-            int farX = 70, farY = 100;      //Known in advance
+        //TEST CASE: The depth detected by the application corresponds to the real depth
+        wait(10000);
+
+        //Get the depth image
+        Image depthImage = mActivityTestRule.getActivity().getDepthImage();
+        ByteBuffer buffer = depthImage.getPlanes()[0].getBuffer();
+        byte[] bytes = new byte[buffer.capacity()];
+        buffer.get(bytes);
+        Bitmap bitmapImage = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, null);
+
+        //TODO: Show image to check it is correct
+        // Use depthImage
+        View v = mActivityTestRule.getActivity().getWindow().getDecorView();     //Debug
+        ImageView mImageView;
+        mImageView = (ImageView) v.findViewById(R.id.my_image_view);
+        //new v             https://stackoverflow.com/questions/10796660/convert-image-to-bitmap
+        mImageView.buildDrawingCache();
+        Bitmap bmap = mImageView.getDrawingCache();
+        //new ^
+        mImageView.setImageBitmap(bmap);
+
+        //TODO: Know the coordinates of two places that are at different depth at the same time
+        // There should be big Color changes
+        int nearX = 500, nearY = 100;   //Known in advance
+        int farX = 70, farY = 100;      //Known in advance
 
             /*
             Distance by Color:
@@ -173,17 +136,16 @@ public class HelloArActivityTestDepth1 {
             <
             [ R- | G- | B+ ]
              */
-            boolean correctDepth = false;
-            String nearPredominantColor = "";
-            String farPredominantColor = "";
+        boolean correctDepth = false;
+        String nearPredominantColor = "";
+        String farPredominantColor = "";
 
-            //Get the depth color of the pixel in the depth image
-            //Getting pixel color by position x and y
-            int nearColor = bitmapImage.getPixel(nearX, nearY);
-            int nearRed = Color.red(nearColor);
-            int nearGreen = Color.green(nearColor);
-            int nearBlue = Color.blue(nearColor);
-            int nearAlpha = Color.alpha(nearColor);
+        //Get the depth color of the pixel in the depth image
+        //Getting pixel color by position x and y
+        int nearColor = bitmapImage.getPixel(nearX, nearY);
+        int nearRed = Color.red(nearColor);
+        int nearGreen = Color.green(nearColor);
+        int nearBlue = Color.blue(nearColor);
 
             /*
             int nearClr = depthImage.getRGB(nearX, nearY);
@@ -199,77 +161,72 @@ public class HelloArActivityTestDepth1 {
             int alpha = mycolor.getAlpha();
             */
 
-            System.out.println("Near Red Color value = " + nearRed);
-            System.out.println("Near Green Color value = " + nearGreen);
-            System.out.println("Near Blue Color value = " + nearBlue);
+        System.out.println("Near Red Color value = " + nearRed);
+        System.out.println("Near Green Color value = " + nearGreen);
+        System.out.println("Near Blue Color value = " + nearBlue);
 
-            if(nearRed > nearGreen) {
-                if (nearRed > nearBlue) {
-                    nearPredominantColor = "red";
-                } else {
-                    nearPredominantColor = "blue";
-                }
+        if (nearRed > nearGreen) {
+            if (nearRed > nearBlue) {
+                nearPredominantColor = "red";
             } else {
-                if (nearGreen > nearBlue) {
-                    nearPredominantColor = "green";
-                } else {
-                    nearPredominantColor = "blue";
-                }
+                nearPredominantColor = "blue";
             }
-
-            int farColor = bitmapImage.getPixel(farX, farY);
-            int farRed = Color.red(farColor);
-            int farGreen = Color.green(farColor);
-            int farBlue = Color.blue(farColor);
-            int farAlpha = Color.alpha(farColor);
-
-            System.out.println("Far Red Color value = " + farRed);
-            System.out.println("Far Green Color value = " + farGreen);
-            System.out.println("Far Blue Color value = " + farBlue);
-
-            if (farRed > farGreen) {
-                if (farRed > farBlue) {
-                    farPredominantColor = "red";
-                } else {
-                    farPredominantColor = "blue";
-                }
+        } else {
+            if (nearGreen > nearBlue) {
+                nearPredominantColor = "green";
             } else {
-                if (farGreen > farBlue) {
-                    farPredominantColor = "green";
-                } else {
-                    farPredominantColor = "blue";
-                }
+                nearPredominantColor = "blue";
             }
-
-
-            //Check if the depth relation is correct
-            if (nearPredominantColor == "red" && farPredominantColor == "red") {
-                if (nearRed != farRed) {
-                    if (nearRed > farRed) correctDepth = true;
-                }
-            } else if (nearPredominantColor == "red" && farPredominantColor == "green") {
-                correctDepth = true;
-            } else if (nearPredominantColor == "red" && farPredominantColor == "blue") {
-                correctDepth = true;
-            } else if (nearPredominantColor == "green" && farPredominantColor == "green") {
-                if (nearGreen != farGreen) {
-                    if (nearGreen > farGreen) correctDepth = true;
-                }
-            } else if (nearPredominantColor == "green" && farPredominantColor == "blue") {
-                correctDepth = true;
-            } else if (nearPredominantColor == "blue" && farPredominantColor == "blue") {
-                if (nearBlue != farBlue) {
-                    if (nearBlue > farBlue) correctDepth = true;
-                }
-            }
-
-            //Assertions
-            assertTrue(correctDepth);
         }
 
-        Thread.sleep(10000);
+        int farColor = bitmapImage.getPixel(farX, farY);
+        int farRed = Color.red(farColor);
+        int farGreen = Color.green(farColor);
+        int farBlue = Color.blue(farColor);
 
+        System.out.println("Far Red Color value = " + farRed);
+        System.out.println("Far Green Color value = " + farGreen);
+        System.out.println("Far Blue Color value = " + farBlue);
 
+        if (farRed > farGreen) {
+            if (farRed > farBlue) {
+                farPredominantColor = "red";
+            } else {
+                farPredominantColor = "blue";
+            }
+        } else {
+            if (farGreen > farBlue) {
+                farPredominantColor = "green";
+            } else {
+                farPredominantColor = "blue";
+            }
+        }
+
+        //Check if the depth relation is correct
+        if (nearPredominantColor == "red" && farPredominantColor == "red") {
+            if (nearRed != farRed) {
+                if (nearRed > farRed) correctDepth = true;
+            }
+        } else if (nearPredominantColor == "red" && farPredominantColor == "green") {
+            correctDepth = true;
+        } else if (nearPredominantColor == "red" && farPredominantColor == "blue") {
+            correctDepth = true;
+        } else if (nearPredominantColor == "green" && farPredominantColor == "green") {
+            if (nearGreen != farGreen) {
+                if (nearGreen > farGreen) correctDepth = true;
+            }
+        } else if (nearPredominantColor == "green" && farPredominantColor == "blue") {
+            correctDepth = true;
+        } else if (nearPredominantColor == "blue" && farPredominantColor == "blue") {
+            if (nearBlue != farBlue) {
+                if (nearBlue > farBlue) correctDepth = true;
+            }
+        }
+
+        //Assertions
+        assertTrue(correctDepth);
+
+        Thread.sleep(3000);
     }
 
     public static Matcher<View> childAtPosition(
@@ -291,7 +248,7 @@ public class HelloArActivityTestDepth1 {
         };
     }
 
-    public File takeScreenshot(){
+    public File takeScreenshot() {
         //View view1 = mActivityTestRule.getActivity().getWindow().getDecorView().getRootView();
         View view1 = mActivityTestRule.getActivity().getWindow().getDecorView();
         view1.setDrawingCacheEnabled(true);
