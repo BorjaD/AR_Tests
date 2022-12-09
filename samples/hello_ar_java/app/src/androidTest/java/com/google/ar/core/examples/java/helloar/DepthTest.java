@@ -194,7 +194,7 @@ public class DepthTest {
                 }
 
                 //There are a maximum of 4 anchors displayed
-                boolean maxAnchorsCondition = numberOfAnchorsDisplayed <= 4;
+                boolean maxAnchorsCondition = numberOfAnchorsDisplayed <= 2;
                 if (!maxAnchorsCondition) {
                     mActivityTestRule.getActivity().testFinishedMessage(false);
                     Thread.sleep(60000);

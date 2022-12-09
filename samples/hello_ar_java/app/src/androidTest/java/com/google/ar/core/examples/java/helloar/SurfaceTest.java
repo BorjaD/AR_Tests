@@ -58,7 +58,8 @@ public class SurfaceTest {
                     System.out.println("a.properties.get(\"qx\"): " + a.properties.get("qx"));
                     System.out.println("a.properties.get(\"qz\"): " + a.properties.get("qz"));
 
-                    boolean surfaceCondition = ((float) a.properties.get("qx") == 0.0) && ((float) a.properties.get("qz") == 0.0);
+                    boolean surfaceCondition = ((float) a.properties.get("qx") == 0.0) &&
+                            ((float) a.properties.get("qz") == 0.0);
                     if(!surfaceCondition) {
                         mActivityTestRule.getActivity().testFinishedMessage(false);
                         Thread.sleep(60000);
@@ -69,7 +70,7 @@ public class SurfaceTest {
             }
 
             //There are a maximum of 4 anchors displayed
-            boolean maxAnchorsCondition = numberOfAnchorsDisplayed <= 4;
+            boolean maxAnchorsCondition = numberOfAnchorsDisplayed <= 2;
             if (!maxAnchorsCondition) {
                 mActivityTestRule.getActivity().testFinishedMessage(false);
                 Thread.sleep(60000);
