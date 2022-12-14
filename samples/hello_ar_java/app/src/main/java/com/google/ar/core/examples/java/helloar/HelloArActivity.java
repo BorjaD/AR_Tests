@@ -222,6 +222,7 @@ public class HelloArActivity<depthImage> extends AppCompatActivity implements Sa
 
   Image depthImage = null;
   TextView myTextViewPassed, myTextViewNotPassed;
+  Button myRecordButton, myPlaybackButton;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -230,6 +231,8 @@ public class HelloArActivity<depthImage> extends AppCompatActivity implements Sa
     surfaceView = findViewById(R.id.surfaceview);
     myTextViewPassed = (TextView)findViewById(R.id.my_text_view_passed);
     myTextViewNotPassed = (TextView)findViewById(R.id.my_text_view_not_passed);
+    myRecordButton = (Button)findViewById(R.id.record_button);
+    myPlaybackButton = (Button)findViewById(R.id.playback_button);
     displayRotationHelper = new DisplayRotationHelper(/*context=*/ this);
 
     // Set up touch listener.
@@ -1290,6 +1293,8 @@ public class HelloArActivity<depthImage> extends AppCompatActivity implements Sa
       runOnUiThread(new Runnable() {
         @Override
         public void run() {
+          myRecordButton.setVisibility(View.GONE);
+          myPlaybackButton.setVisibility(View.GONE);
           myTextViewPassed.setVisibility(View.VISIBLE);
         }
       });
@@ -1297,6 +1302,8 @@ public class HelloArActivity<depthImage> extends AppCompatActivity implements Sa
       runOnUiThread(new Runnable() {
         @Override
         public void run() {
+          myRecordButton.setVisibility(View.GONE);
+          myPlaybackButton.setVisibility(View.GONE);
           myTextViewNotPassed.setVisibility(View.VISIBLE);
         }
       });

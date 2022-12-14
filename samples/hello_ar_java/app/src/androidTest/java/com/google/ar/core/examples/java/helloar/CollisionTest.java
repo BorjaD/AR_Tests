@@ -271,6 +271,10 @@ public class CollisionTest {
         }
         assertTrue(statusCondition);
 
+        //All went fine
+        mActivityTestRule.getActivity().testFinishedMessage(true);
+        Thread.sleep(60000);
+
     }
 
     public ArrayList<double[]> updateMaxAndMin(List<double[]> maxAndMinList, String line, boolean firstIteration) {
