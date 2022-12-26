@@ -1,4 +1,4 @@
-package com.google.ar.core.examples.java.helloar;
+package com.google.ar.core.examples.java.ar_tests;
 
 import static org.junit.Assert.assertTrue;
 import static nl.uu.cs.aplib.AplibEDSL.SEQ;
@@ -13,6 +13,9 @@ import android.widget.ImageView;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
+
+import com.google.ar.core.examples.java.helloar.HelloArActivity;
+import com.google.ar.core.examples.java.helloar.R;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -45,7 +48,7 @@ public class DepthTest {
         agent.attachState(state).attachEnvironment(new MyAgentEnv(mActivityTestRule.getActivity()));
         GoalLib goalLib = new GoalLib();
         GoalStructure G = SEQ(goalLib.clickButtonG(agent, "Playback", 2000),
-                goalLib.selectVideoG(agent, 1, 10000));     //TODO: Provide proper video & tap Settings>Depth_mode
+                goalLib.selectVideoG(agent, 2, 10000));     //TODO: Provide proper video & tap Settings>Depth_mode
         agent.setGoal(G);
 
         int k=0 ;
@@ -183,7 +186,7 @@ public class DepthTest {
                 boolean depthCondition = correctDepth;
                 if (!depthCondition) {
                     mActivityTestRule.getActivity().testFinishedMessage(false);
-                    Thread.sleep(60000);
+                    Thread.sleep(5000);
                 }
                 assertTrue(depthCondition);
 
@@ -197,19 +200,19 @@ public class DepthTest {
                 boolean maxAnchorsCondition = numberOfAnchorsDisplayed <= 2;
                 if (!maxAnchorsCondition) {
                     mActivityTestRule.getActivity().testFinishedMessage(false);
-                    Thread.sleep(60000);
+                    Thread.sleep(5000);
                 }
                 assertTrue(maxAnchorsCondition);
 
                 boolean statusCondition = G.getStatus().success();
                 if(!statusCondition) {
                     mActivityTestRule.getActivity().testFinishedMessage(false);
-                    Thread.sleep(60000);
+                    Thread.sleep(5000);
                 }
                 assertTrue(statusCondition);
             } catch (Exception e) {
                 mActivityTestRule.getActivity().testFinishedMessage(false);
-                Thread.sleep(60000);
+                Thread.sleep(5000);
                 assertTrue(false);
             }
         }

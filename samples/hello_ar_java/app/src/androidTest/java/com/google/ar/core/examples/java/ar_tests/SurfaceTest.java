@@ -1,19 +1,17 @@
-package com.google.ar.core.examples.java.helloar;
+package com.google.ar.core.examples.java.ar_tests;
 
 import static org.junit.Assert.assertTrue;
 import static nl.uu.cs.aplib.AplibEDSL.SEQ;
-
-import android.util.Log;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 
+import com.google.ar.core.examples.java.helloar.HelloArActivity;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.util.List;
 
 import eu.iv4xr.framework.mainConcepts.TestAgent;
 import eu.iv4xr.framework.mainConcepts.WorldEntity;
@@ -22,10 +20,9 @@ import helloAr.testAgentSupport.MyAgentEnv;
 import helloAr.testAgentSupport.MyAgentState;
 import nl.uu.cs.aplib.mainConcepts.GoalStructure;
 
-//ROTATION: Debug
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class RotationTest {
+public class SurfaceTest {
 
     @Rule
     public ActivityTestRule<HelloArActivity> mActivityTestRule = new ActivityTestRule<>(HelloArActivity.class);
@@ -35,15 +32,17 @@ public class RotationTest {
 
         TestAgent agent = new TestAgent("agentSmith","tester") ;
         MyAgentState state = new MyAgentState() ;
-        boolean correctRotation = false;
 
         agent.attachState(state)
              .attachEnvironment(new MyAgentEnv(mActivityTestRule.getActivity())) ;
         GoalLib goalLib = new GoalLib() ;
         GoalStructure G = SEQ(
                 goalLib.clickButtonG(agent, "Playback", 2000),
-                goalLib.selectVideoG(agent, 1, 35000),      //TODO: Provide proper video
-                goalLib.tapScreenG(agent,300,1500,3000)
+                goalLib.selectVideoG(agent, 3, 35000),
+                goalLib.tapScreenG(agent,300,1500,3000),
+                goalLib.tapScreenG(agent,600,1500,3000),
+                goalLib.tapScreenG(agent,400,1000,3000),
+                goalLib.tapScreenG(agent,500,1000,5000)
         ) ;
         agent.setGoal(G) ;
 
@@ -53,36 +52,22 @@ public class RotationTest {
             agent.update() ;
             int numberOfAnchorsDisplayed = 0;
 
-            // The pose may change each time Session.update() is called.
-            // The pose should only be used for rendering if getTrackingState() returns TrackingState.TRACKING
-            String trackingStateObjectSeen = "";
-            String trackingStateObjectNotSeen = "";
-
+            //Specific assertions:
+            //  TEST CASE 1: The base of the item is well placed in a surface
+            //  It should only be able to be rotated to left/right (qy)
             for(WorldEntity a : state.worldmodel().elements.values()) {
                 if (a.type.equals("3DObj")) {
-                    System.out.println("a.properties.get(\"trackingState\"): " + a.properties.get("trackingState"));
-                    trackingStateObjectSeen = String.valueOf(a.properties.get("trackingState"));
-                    break;
+                    System.out.println("a.properties.get(\"qx\"): " + a.properties.get("qx"));
+                    System.out.println("a.properties.get(\"qz\"): " + a.properties.get("qz"));
+
+                    boolean surfaceCondition = ((float) a.properties.get("qx") == 0.0) &&
+                            ((float) a.properties.get("qz") == 0.0);
+                    if(!surfaceCondition) {
+                        mActivityTestRule.getActivity().testFinishedMessage(false);
+                        Thread.sleep(5000);
+                    }
+                    assertTrue(surfaceCondition) ;
                 }
-            }
-
-            Thread.sleep(5000);
-
-            for(WorldEntity a : state.worldmodel().elements.values()) {
-                if (a.type.equals("3DObj")) {
-                    System.out.println("a.properties.get(\"trackingState\"): " + a.properties.get("trackingState"));
-                    trackingStateObjectNotSeen = String.valueOf(a.properties.get("trackingState"));
-                    break;
-                }
-            }
-
-            if (trackingStateObjectSeen == trackingStateObjectNotSeen) {
-                if (trackingStateObjectSeen == "TRACKING") {
-                    correctRotation = true;
-                }
-            }
-
-            for(WorldEntity a : state.worldmodel().elements.values()) {
                 numberOfAnchorsDisplayed ++;
             }
 
@@ -90,22 +75,15 @@ public class RotationTest {
             boolean maxAnchorsCondition = numberOfAnchorsDisplayed <= 2;
             if (!maxAnchorsCondition) {
                 mActivityTestRule.getActivity().testFinishedMessage(false);
-                Thread.sleep(60000);
+                Thread.sleep(5000);
             }
             assertTrue(maxAnchorsCondition);
         }
 
-        boolean rotationCondition = correctRotation;
-        if (!rotationCondition) {
-            mActivityTestRule.getActivity().testFinishedMessage(false);
-            Thread.sleep(60000);
-        }
-        assertTrue(rotationCondition);
-
         boolean statusCondition = G.getStatus().success();
         if(!statusCondition) {
             mActivityTestRule.getActivity().testFinishedMessage(false);
-            Thread.sleep(60000);
+            Thread.sleep(5000);
         }
         assertTrue(statusCondition);
     }

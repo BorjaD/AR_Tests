@@ -1,4 +1,4 @@
-package com.google.ar.core.examples.java.helloar;
+package com.google.ar.core.examples.java.ar_tests;
 
 import static org.junit.Assert.assertTrue;
 import static nl.uu.cs.aplib.AplibEDSL.SEQ;
@@ -6,6 +6,8 @@ import static nl.uu.cs.aplib.AplibEDSL.SEQ;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
+
+import com.google.ar.core.examples.java.helloar.HelloArActivity;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -100,7 +102,7 @@ public class CollisionTest {
         GoalLib goalLib = new GoalLib() ;
         GoalStructure G = SEQ(
                 goalLib.clickButtonG(agent, "Playback", 2000),
-                goalLib.selectVideoG(agent, 1, 35000),
+                goalLib.selectVideoG(agent, 3, 35000),
                 goalLib.tapScreenG(agent,300,1500,3000),
                 goalLib.tapScreenG(agent,600,1500,3000),
                 goalLib.tapScreenG(agent,400,1000,3000),
@@ -246,7 +248,7 @@ public class CollisionTest {
                     boolean collisionCondition = thereIsCollision;
                     if(!collisionCondition) {
                         mActivityTestRule.getActivity().testFinishedMessage(false);
-                        Thread.sleep(60000);
+                        Thread.sleep(5000);
                     }
                     assertTrue(collisionCondition) ;
 
@@ -259,7 +261,7 @@ public class CollisionTest {
             boolean maxAnchorsCondition = numberOfAnchorsDisplayed <= 2;
             if (!maxAnchorsCondition) {
                 mActivityTestRule.getActivity().testFinishedMessage(false);
-                Thread.sleep(60000);
+                Thread.sleep(5000);
             }
             assertTrue(maxAnchorsCondition);
         }
@@ -267,13 +269,13 @@ public class CollisionTest {
         boolean statusCondition = G.getStatus().success();
         if(!statusCondition) {
             mActivityTestRule.getActivity().testFinishedMessage(false);
-            Thread.sleep(60000);
+            Thread.sleep(5000);
         }
         assertTrue(statusCondition);
 
         //All went fine
         mActivityTestRule.getActivity().testFinishedMessage(true);
-        Thread.sleep(60000);
+        Thread.sleep(5000);
 
     }
 
